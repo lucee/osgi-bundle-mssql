@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.lucee</groupId>
   <artifactId>mssql</artifactId>
-  <version>7.2.0.0</version>
+  <version>7.2.0.jre8</version>
   <name>Microsoft JDBC Driver For SQL Server</name>
   <packaging>bundle</packaging>
 
