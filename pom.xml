@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.lucee</groupId>
   <artifactId>mssql</artifactId>
-  <version>7.2.2.jre8</version>
+  <version>7.2.2.jre11</version>
   <name>Microsoft JDBC Driver For SQL Server</name>
   <packaging>bundle</packaging>
 
@@ -94,7 +94,7 @@
                  <artifactItem>
                    <groupId>com.microsoft.sqlserver</groupId>
                     <artifactId>mssql-jdbc</artifactId>
-                    <version>7.2.2.jre8</version>
+                    <version>7.2.2.jre11</version>
                    <type>jar</type>
                    <overWrite>false</overWrite>
                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
