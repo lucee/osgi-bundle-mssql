@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.lucee</groupId>
   <artifactId>mssql</artifactId>
-  <version>7.2.2.jre11</version>
+  <version>8.4.1.jre8</version>
   <name>Microsoft JDBC Driver For SQL Server</name>
   <packaging>bundle</packaging>
 
@@ -94,7 +94,7 @@
                  <artifactItem>
                    <groupId>com.microsoft.sqlserver</groupId>
                     <artifactId>mssql-jdbc</artifactId>
-                    <version>7.2.2.jre11</version>
+                    <version>8.4.1.jre8</version>
                    <type>jar</type>
                    <overWrite>false</overWrite>
                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
@@ -120,8 +120,8 @@
             <Export-Package>*,META-INF.services.*</Export-Package>
             <!-- <Require-Bundle></Require-Bundle> -->
             <!-- <Require-Bundle-Fragment></Require-Bundle-Fragment> -->
-            <Import-Package>!org.osgi.framework,!org.osgi.service.jdbc,!com.microsoft.aad.adal4j,!com.microsoft.azure,!com.microsoft.azure.keyvault,!com.microsoft.azure.keyvault.authentication,!com.microsoft.azure.keyvault.models,!com.microsoft.azure.keyvault.webkey,!com.microsoft.azure.serializer,!com.microsoft.rest,!com.microsoft.rest.credentials,!com.microsoft.rest.protocol,!okhttp3,!retrofit2,*</Import-Package>
-            <DynamicImport-Package>org.osgi.framework,org.osgi.service.jdbc,com.microsoft.aad.adal4j,com.microsoft.azure,com.microsoft.azure.keyvault,com.microsoft.azure.keyvault.authentication,com.microsoft.azure.keyvault.models,com.microsoft.azure.keyvault.webkey,com.microsoft.azure.serializer,com.microsoft.rest,com.microsoft.rest.credentials,com.microsoft.rest.protocol,okhttp3,retrofit2</DynamicImport-Package>
+            <Import-Package>!org.bouncycastle.openssl.jcajce,!com.google.gson,!org.antlr.v4.runtime.dfa,!org.antlr.v4.runtime.atn,!org.antlr.v4.runtime,!org.osgi.framework,!org.osgi.service.jdbc,!com.microsoft.aad.adal4j,!com.microsoft.azure,!com.microsoft.azure.keyvault,!com.microsoft.azure.keyvault.authentication,!com.microsoft.azure.keyvault.models,!com.microsoft.azure.keyvault.webkey,!com.microsoft.azure.serializer,!com.microsoft.rest,!com.microsoft.rest.credentials,!com.microsoft.rest.protocol,!okhttp3,!retrofit2,*</Import-Package>
+            <DynamicImport-Package>org.bouncycastle.openssl.jcajce,com.google.gson,org.antlr.v4.runtime.dfa,org.antlr.v4.runtime.atn,org.antlr.v4.runtime,org.osgi.framework,org.osgi.service.jdbc,com.microsoft.aad.adal4j,com.microsoft.azure,com.microsoft.azure.keyvault,com.microsoft.azure.keyvault.authentication,com.microsoft.azure.keyvault.models,com.microsoft.azure.keyvault.webkey,com.microsoft.azure.serializer,com.microsoft.rest,com.microsoft.rest.credentials,com.microsoft.rest.protocol,okhttp3,retrofit2</DynamicImport-Package>
             <!-- <Fragment-Host></Fragment-Host> -->
           </instructions>
         </configuration>
