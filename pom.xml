@@ -1,8 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <!--
+    Use the following properties are used to configure the version
+    of Microsoft SQL Server JDBC driver you want to compile to a Lucee
+    compatible JAR.
+  -->
+  <properties>
+    <!-- customize the following variables to declare the target MSSQL driver & JRE version -->
+    <target.mssql.version>9.4.0</target.mssql.version>
+    <target.jre.version>jre11</target.jre.version>
+
+    <!-- in a normal situation, the following variables should not need to be changed -->
+    <mssql.version>${target.mssql.version}.${target.jre.version}</mssql.version>
+    <mssql.groupId>com.microsoft.sqlserver</mssql.groupId>
+    <mssql.artifactId>mssql-jdbc</mssql.artifactId>
+    <!-- to avoid warnings about having a dynamic version we need to use a special "revision" variable -->
+    <revision>${mssql.version}.${target.jre.version}</revision>
+  </properties>
+
+
   <groupId>org.lucee</groupId>
   <artifactId>mssql</artifactId>
-  <version>8.4.1.jre8</version>
+  <version>${revision}</version>
   <name>Microsoft JDBC Driver For SQL Server</name>
   <packaging>bundle</packaging>
 
@@ -11,17 +31,14 @@
 
   <!-- same license as the original jar -->
   <licenses>
-
-	<license>
-		<name>MIT license</name>
-		<url>http://www.opensource.org/licenses/mit-license.php</url>
-		<comments>The MIT License (MIT)</comments>
-	</license>
-
+    <license>
+      <name>MIT license</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <comments>The MIT License (MIT)</comments>
+    </license>
   </licenses>
 
   <developers>
-
     <developer>
       <id>micstriit</id>
       <name>Michael Offner</name>
@@ -34,106 +51,9 @@
       </roles>
       <timezone>+1</timezone>
     </developer>
-
   </developers>
 
-  <build>
-    <plugins>
-      <plugin>
-      <groupId>org.sonatype.plugins</groupId>
-      <artifactId>nexus-staging-maven-plugin</artifactId>
-      <version>1.6.3</version>
-      <extensions>true</extensions>
-      <configuration>
-        <serverId>ossrh</serverId>
-        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-      </configuration>
-    </plugin>
-
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-gpg-plugin</artifactId>
-      <version>1.5</version>
-      <executions>
-        <execution>
-          <id>sign-artifacts</id>
-          <phase>verify</phase>
-          <goals>
-            <goal>sign</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-release-plugin</artifactId>
-      <version>2.5</version>
-      <configuration>
-        <autoVersionSubmodules>true</autoVersionSubmodules>
-        <useReleaseProfile>false</useReleaseProfile>
-        <releaseProfiles>release</releaseProfiles>
-        <goals>deploy</goals>
-      </configuration>
-    </plugin>
-
-    <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-dependency-plugin</artifactId>
-         <version>2.10</version>
-         <executions>
-           <execution>
-             <id>unpack</id>
-             <phase>validate</phase>
-             <goals>
-               <goal>unpack</goal>
-             </goals>
-             <configuration>
-               <artifactItems>
-                 <artifactItem>
-                   <groupId>com.microsoft.sqlserver</groupId>
-                    <artifactId>mssql-jdbc</artifactId>
-                    <version>8.4.1.jre8</version>
-                   <type>jar</type>
-                   <overWrite>false</overWrite>
-                   <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                 </artifactItem>
-               </artifactItems>
-               <overWriteReleases>true</overWriteReleases>
-               <overWriteSnapshots>true</overWriteSnapshots>
-             </configuration>
-           </execution>
-         </executions>
-       </plugin>
-
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>3.0.1</version>
-        <configuration>
-          <unpackBundle>true</unpackBundle>
-          <instructions>
-            <Bundle-Name>org.lucee.mssql</Bundle-Name>
-            <Bundle-SymbolicName>org.lucee.mssql</Bundle-SymbolicName>
-            <Bundle-Description>OSGI version of jar ${project.name}</Bundle-Description>
-            <Export-Package>*,META-INF.services.*</Export-Package>
-            <!-- <Require-Bundle></Require-Bundle> -->
-            <!-- <Require-Bundle-Fragment></Require-Bundle-Fragment> -->
-            <Import-Package>!org.bouncycastle.openssl.jcajce,!com.google.gson,!org.antlr.v4.runtime.dfa,!org.antlr.v4.runtime.atn,!org.antlr.v4.runtime,!org.osgi.framework,!org.osgi.service.jdbc,!com.microsoft.aad.adal4j,!com.microsoft.azure,!com.microsoft.azure.keyvault,!com.microsoft.azure.keyvault.authentication,!com.microsoft.azure.keyvault.models,!com.microsoft.azure.keyvault.webkey,!com.microsoft.azure.serializer,!com.microsoft.rest,!com.microsoft.rest.credentials,!com.microsoft.rest.protocol,!okhttp3,!retrofit2,*</Import-Package>
-            <DynamicImport-Package>org.bouncycastle.openssl.jcajce,com.google.gson,org.antlr.v4.runtime.dfa,org.antlr.v4.runtime.atn,org.antlr.v4.runtime,org.osgi.framework,org.osgi.service.jdbc,com.microsoft.aad.adal4j,com.microsoft.azure,com.microsoft.azure.keyvault,com.microsoft.azure.keyvault.authentication,com.microsoft.azure.keyvault.models,com.microsoft.azure.keyvault.webkey,com.microsoft.azure.serializer,com.microsoft.rest,com.microsoft.rest.credentials,com.microsoft.rest.protocol,okhttp3,retrofit2</DynamicImport-Package>
-            <!-- <Fragment-Host></Fragment-Host> -->
-          </instructions>
-        </configuration>
-        <extensions>true</extensions>
-      </plugin>
-
-
-    </plugins>
-  </build>
   
-
-
   <scm>
     <url>https://github.com/lucee/osgi-bundle-mssql</url>
     <connection>scm:git:git://github.com/lucee/osgi-bundle-mssql.git</connection>
@@ -143,13 +63,167 @@
 
   <distributionManagement>
     <repository>
-    <id>ossrh</id>
-    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-  </repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
     <snapshotRepository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+            <!-- This necessary so that the settings.xml gpg settings will be honored -->
+            <configuration>
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>          
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <useReleaseProfile>false</useReleaseProfile>
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy</goals>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${mssql.groupId}</groupId>
+                  <artifactId>${mssql.artifactId}</artifactId>
+                  <version>${mssql.version}</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <!-- match the version of Felix used for in the MSSQL pom.xml -->
+        <version>5.1.1</version>
+        <extensions>true</extensions>
+        <configuration>
+          <unpackBundle>true</unpackBundle>
+          <instructions>
+            <Bundle-Name>org.lucee.mssql</Bundle-Name>
+            <Bundle-SymbolicName>org.lucee.mssql</Bundle-SymbolicName>
+            <Bundle-Description>OSGI version of jar ${project.name}</Bundle-Description>            
+            <Export-Package>
+              !com.sun.jna.*,
+              META-INF.services.*;-split-package:=merge-last,
+              *;-split-package:=merge-last
+            </Export-Package>
+            <!-- 
+              For external dependencies that the MSSQL driver relies on for certain functionality,
+              but which is not included in the MSSQL jar we need to explicitly configure the
+              OSGi package to load these external libraries dynamically. The list of dependencies
+              is based on the MSSQL driver. 
+
+              For more information on MSSQL JDBC driver dependenices, see:
+
+              https://docs.microsoft.com/en-us/sql/connect/jdbc/feature-dependencies-of-microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15
+            -->
+            <Import-Package>
+              !com.azure.core.credential,
+              !com.azure.core.http,
+              !com.azure.core.http.policy,
+              !com.azure.core.util,
+              !com.azure.identity,
+              !com.azure.security.keyvault.keys,
+              !com.azure.security.keyvault.keys.cryptography,
+              !com.azure.security.keyvault.keys.cryptography.models,
+              !com.azure.security.keyvault.keys.models,
+              !com.google.gson,
+              !com.microsoft.aad.msal4j,
+              !com.microsoft.aad.adal4j,
+              !org.bouncycastle.openssl.jcajce,
+              !org.antlr.v4.runtime,
+              !org.antlr.v4.runtime.dfa,
+              !org.antlr.v4.runtime.atn,
+              !org.osgi.framework,
+              !org.osgi.service.jdbc,
+              !reactor.core.publisher,
+              *
+            </Import-Package>
+            <DynamicImport-Package>
+              com.azure.core.credential,
+              com.azure.core.http,
+              com.azure.core.http.policy,
+              com.azure.core.util,
+              com.azure.identity,
+              com.azure.security.keyvault.keys,
+              com.azure.security.keyvault.keys.cryptography,
+              com.azure.security.keyvault.keys.cryptography.models,
+              com.azure.security.keyvault.keys.models,
+              com.google.gson,
+              com.microsoft.aad.msal4j,
+              com.microsoft.aad.adal4j,
+              org.bouncycastle.openssl.jcajce,
+              org.antlr.v4.runtime,
+              org.antlr.v4.runtime.dfa,
+              org.antlr.v4.runtime.atn,
+              org.osgi.framework,
+              org.osgi.service.jdbc,
+              reactor.core.publisher
+            </DynamicImport-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
