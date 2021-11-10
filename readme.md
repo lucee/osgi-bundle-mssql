@@ -138,17 +138,17 @@ When you see this error, you must update the `<Import-Package>` and `<DynamicImp
 
 For example, if you got the above error that the `com.azure.core.credential` package was missing, you would prepend the following rule to the `<Import-Package>` element:
 
-	```
-	!com.azure.core.credential,
-	```
+```
+!com.azure.core.credential,
+```
 
 This will make sure the JAR's manifest says that this library is not required in order to load.
 
 Next, you need to prepend the following string to the `<DynamicImport-Package>` element:
 
-	```
-	com.azure.core.credential,
-	```
+```
+com.azure.core.credential,
+```
 
 This will make sure the JAR's manifest says that the dependency should be loaded if it exists.
 
