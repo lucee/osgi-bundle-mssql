@@ -16,7 +16,7 @@
     <mssql.groupId>com.microsoft.sqlserver</mssql.groupId>
     <mssql.artifactId>mssql-jdbc</mssql.artifactId>
     <!-- to avoid warnings about having a dynamic version we need to use a special "revision" variable -->
-    <revision>${mssql.version}.${target.jre.version}</revision>
+    <revision>${mssql.version}</revision>
   </properties>
 
 
